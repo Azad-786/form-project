@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Step Form</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .step-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .step-form .step {
+        display: none;
+      }
+
+      .step-form .step.active {
+        display: block;
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="step-form">
+        <form id="form">
+          <div class="step step-1 active">
+            <h2>Step 1</h2>
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" class="form-control" id="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" required />
+            </div>
+            <div class="form-group">
+              <label for="confirmEmail">Confirm Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                id="confirmEmail"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="country">Country:</label>
+              <input type="text" class="form-control" id="country" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone No.:</label>
+              <input type="text" class="form-control" id="phone" required />
+            </div>
+            <button type="button" class="btn btn-primary next">Next</button>
+          </div>
+
+          <div class="step step-2">
+            <h2>Step 2</h2>
+            <div class="form-group">
+              <label for="academicLevel">Select Academic Level:</label>
+              <select class="form-control" id="academicLevel" required>
+                <option value="">Select</option>
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Graduate">Graduate</option>
+                <option value="PhD">PhD</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="subjectArea">Subject Area:</label>
+              <select class="form-control" id="subjectArea" required>
+                <option value="">Select</option>
+                <option value="Science">Science</option>
+                <option value="Technology">Technology</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Mathematics">Mathematics</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="areaOfResearch">Area of Research:</label>
+              <select class="form-control" id="areaOfResearch" required>
+                <option value="">Select</option>
+                <option value="Biology">Biology</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Physics">Physics</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="researchTopic">Topic of Research:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="researchTopic"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="serviceRequired">Service Required:</label>
+              <select class="form-control" id="serviceRequired" required>
+                <option value="">Select</option>
+                <option value="Data Analysis">Data Analysis</option>
+                <option value="Literature Review">Literature Review</option>
+                <option value="Editing and Proofreading">
+                  Editing and Proofreading
+                </option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary prev">Previous</button>
+            <button type="button" class="btn btn-primary next">Next</button>
+          </div>
+
+          <div class="step step-3">
+            <h2>Step 3</h2>
+            <div class="form-group">
+              <label for="researchObjectives">Research Objectives:</label>
+              <textarea
+                class="form-control"
+                id="researchObjectives"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="researchHypothesis">Research Hypothesis:</label>
+              <textarea
+                class="form-control"
+                id="researchHypothesis"
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="timeline">Timeline:</label>
+              <input type="text" class="form-control" id="timeline" required />
+            </div>
+            <div class="form-group">
+              <label for="instructions">Any further instructions:</label>
+              <textarea class="form-control" id="instructions"></textarea>
+            </div>
+            <button type="button" class="btn btn-primary prev">Previous</button>
+            <button type="button" class="btn btn-primary next">Next</button>
+          </div>
+
+          <div class="step step-4">
+            <h2>Step 4</h2>
+            <div class="form-group">
+              <label for="uploadProposal"
+                >Upload Proposal (Multiple Files):</label
+              >
+              <input
+                type="file"
+                class="form-control-file"
+                id="uploadProposal"
+                multiple
+              />
+            </div>
+            <button type="button" class="btn btn-primary prev">Previous</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="form-summary"></div>
+
+
+  
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const steps = document.querySelectorAll(".step");
+  const prevBtns = document.querySelectorAll(".prev");
+  const nextBtns = document.querySelectorAll(".next");
+  const form = document.getElementById("form");
+  const formData = {}; // Object to store form data
+
+  let currentStep = 0;
+
+  showStep(currentStep);
+
+  function showStep(stepIndex) {
+    steps.forEach(function(step) {
+      step.style.display = "none";
+    });
+    steps[stepIndex].style.display = "block";
+
+    if (stepIndex === 0) {
+      prevBtns.forEach(function(btn) {
+        btn.style.display = "none";
+      });
+    } else {
+      prevBtns.forEach(function(btn) {
+        btn.style.display = "inline-block";
+      });
+    }
+
+    if (stepIndex === steps.length - 1) {
+      nextBtns.forEach(function(btn) {
+        btn.style.display = "none";
+      });
+
+      // Submit the form on the last step
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        updateFormData(currentStep);
+        submitForm();
+      });
+    } else {
+      nextBtns.forEach(function(btn) {
+        btn.style.display = "inline-block";
+      });
+    }
+  }
+
+  function updateFormData(stepIndex) {
+    const inputs = steps[stepIndex].querySelectorAll("input, select, textarea");
+
+    inputs.forEach(function(input) {
+      const fieldName = input.id;
+      const fieldValue = input.value;
+      formData[fieldName] = fieldValue;
+    });
+  }
+
+  function submitForm() {
+    // Store form data in localStorage
+    localStorage.setItem("formData", JSON.stringify(formData));
+
+    // Redirect to the summary page
+    window.location.href = "summary.html";
+  }
+
+  prevBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      currentStep--;
+      showStep(currentStep);
+    });
+  });
+
+  nextBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      const isValid = validateStep(currentStep);
+      if (!isValid) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+      updateFormData(currentStep);
+      currentStep++;
+      showStep(currentStep);
+    });
+  });
+
+  function validateStep(stepIndex) {
+    const inputs = steps[stepIndex].querySelectorAll("input[required], select[required], textarea[required]");
+    let isValid = true;
+
+    inputs.forEach(function(input) {
+      if (!input.value) {
+        input.classList.add("error");
+        isValid = false;
+      } else {
+        input.classList.remove("error");
+      }
+    });
+
+    return isValid;
+  }
+});
+
+</script>
+
+  </body>
+</html>

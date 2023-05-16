@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Summary</title>
+</head>
+<body>
+  <h2 style="text-align: center;">Form Summary</h2>
+  <div style="text-align: center;" id="form-summary"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const formSummary = document.getElementById("form-summary");
+      const formData = JSON.parse(localStorage.getItem("formData"));
+
+      let summaryHTML = "";
+      for (const field in formData) {
+        summaryHTML += `<p><strong>${field
+}:</strong> ${formData[field]}</p>`;
+}
+
+  formSummary.innerHTML = summaryHTML;
+
+  // Clear the form data from localStorage
+  localStorage.removeItem("formData");
+});
+  </script>
+</body>
+</html>
